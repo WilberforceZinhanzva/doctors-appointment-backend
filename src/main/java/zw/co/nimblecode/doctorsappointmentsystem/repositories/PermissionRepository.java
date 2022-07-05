@@ -9,6 +9,8 @@ import java.util.Set;
 
 public interface PermissionRepository extends JpaRepository<Permission, String> {
     boolean existsByPermissionIgnoreCase(String permission);
+
     List<Permission> findAllByPermissionInIgnoreCase(Set<String> permissions);
+
     Optional<Permission> findByPermission(String permission);
 }

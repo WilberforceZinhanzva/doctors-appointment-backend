@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name="appointments_time")
+@Table(name = "appointments_time")
 public class AppointmentTime implements Serializable {
     @Id
     private String id = UUID.randomUUID().toString();

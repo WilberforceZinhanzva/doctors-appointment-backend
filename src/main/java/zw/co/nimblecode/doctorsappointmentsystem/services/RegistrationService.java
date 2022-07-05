@@ -13,7 +13,7 @@ import zw.co.nimblecode.doctorsappointmentsystem.models.transferables.Transferab
 import zw.co.nimblecode.doctorsappointmentsystem.models.transferables.TransferablePatient;
 import zw.co.nimblecode.doctorsappointmentsystem.repositories.*;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,13 +46,13 @@ public class RegistrationService {
         this.roleRepository = roleRepository;
     }
 
-    public TransferableDoctor registerDoctor(ConsumableDoctor consumableDoctor){
-        if(credentialsRepository.existsByUsername(consumableDoctor.getUsername()))
+    public TransferableDoctor registerDoctor(ConsumableDoctor consumableDoctor) {
+        if (credentialsRepository.existsByUsername(consumableDoctor.getUsername()))
             throw new ResourceAlreadyExistsException("Username already taken!");
 
         //Fetch Roles
         Optional<Role> doctorRole = roleRepository.findByRole("DOCTOR");
-        if(doctorRole.isEmpty())
+        if (doctorRole.isEmpty())
             throw new ResourceNotFoundException("Doctor role not found!");
 
         //Fetch Specialization Fields
@@ -66,20 +66,20 @@ public class RegistrationService {
         Doctor doctor = new Doctor();
         doctor.setFullname(consumableDoctor.getFullname());
         doctor.setCredentials(credentials);
-        doctor.setFieldOfSpecialization(new HashSet<>(specializationFields));
+        doctor.setFieldOfSpecialization(new ArrayList<>(specializationFields));
 
 
         return doctorRepository.save(doctor).serializeForTransfer();
 
     }
 
-    public TransferablePatient registerPatient(ConsumablePatient consumablePatient){
-        if(credentialsRepository.existsByUsername(consumablePatient.getUsername()))
+    public TransferablePatient registerPatient(ConsumablePatient consumablePatient) {
+        if (credentialsRepository.existsByUsername(consumablePatient.getUsername()))
             throw new ResourceAlreadyExistsException("Username already taken!");
 
         //Fetch Roles
         Optional<Role> patientRole = roleRepository.findByRole("PATIENT");
-        if(patientRole.isEmpty())
+        if (patientRole.isEmpty())
             throw new ResourceNotFoundException("Patient role not found!");
 
         Credentials credentials = new Credentials();
@@ -96,13 +96,13 @@ public class RegistrationService {
         return patientRepository.save(patient).serializeForTransfer();
     }
 
-    public TransferableAssistant registerAssistant(ConsumableAssistant consumableAssistant){
-        if(credentialsRepository.existsByUsername(consumableAssistant.getUsername()))
+    public TransferableAssistant registerAssistant(ConsumableAssistant consumableAssistant) {
+        if (credentialsRepository.existsByUsername(consumableAssistant.getUsername()))
             throw new ResourceAlreadyExistsException("Username already taken!");
 
         //Fetch roles
         Optional<Role> assistantRole = roleRepository.findByRole("ASSISTANT");
-        if(assistantRole.isEmpty())
+        if (assistantRole.isEmpty())
             throw new ResourceNotFoundException("Assistant role not found!");
 
         Credentials credentials = new Credentials();

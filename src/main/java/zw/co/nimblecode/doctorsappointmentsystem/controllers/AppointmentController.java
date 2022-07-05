@@ -10,7 +10,7 @@ import zw.co.nimblecode.doctorsappointmentsystem.services.AppointmentService;
 import java.util.Set;
 
 @RestController
-@RequestMapping(value="/api/v1/appointments")
+@RequestMapping(value = "/api/v1/appointments")
 public class AppointmentController {
     private AppointmentService appointmentService;
 
@@ -19,22 +19,22 @@ public class AppointmentController {
     }
 
     @PostMapping
-    public ResponseEntity<TransferableAppointment> createAppointment(@RequestBody ConsumableAppointment consumableAppointment){
+    public ResponseEntity<TransferableAppointment> createAppointment(@RequestBody ConsumableAppointment consumableAppointment) {
         return ResponseEntity.ok(appointmentService.createAppointment(consumableAppointment));
     }
 
     @PutMapping("/{id}/{reason}")
-    public ResponseEntity<TransferableAppointment> cancelAppointment(@PathVariable("id")String id,@PathVariable("reason") String reason){
-        return ResponseEntity.ok(appointmentService.cancelAppointment(id,reason));
+    public ResponseEntity<TransferableAppointment> cancelAppointment(@PathVariable("id") String id, @PathVariable("reason") String reason) {
+        return ResponseEntity.ok(appointmentService.cancelAppointment(id, reason));
     }
 
     @GetMapping
-    public ResponseEntity<Set<TransferableAppointment>> appointments(AppointmentSearchKey key, String searchValue){
-        return ResponseEntity.ok(appointmentService.appointments(key,searchValue));
+    public ResponseEntity<Set<TransferableAppointment>> appointments(AppointmentSearchKey key, String searchValue) {
+        return ResponseEntity.ok(appointmentService.appointments(key, searchValue));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<TransferableAppointment> deleteAppointment(@PathVariable("id")String id){
+    public ResponseEntity<TransferableAppointment> deleteAppointment(@PathVariable("id") String id) {
         return ResponseEntity.ok(appointmentService.deleteAppointment(id));
     }
 }

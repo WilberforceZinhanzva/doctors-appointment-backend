@@ -24,15 +24,17 @@ public class RegistrationController {
     }
 
     @PostMapping("/doctors")
-    public ResponseEntity<TransferableDoctor> registerDoctor(@RequestBody ConsumableDoctor consumableDoctor){
+    public ResponseEntity<TransferableDoctor> registerDoctor(@RequestBody ConsumableDoctor consumableDoctor) {
         return ResponseEntity.ok(registrationService.registerDoctor(consumableDoctor));
     }
+
     @PostMapping("/patients")
-    public ResponseEntity<TransferablePatient> registerPatient(@RequestBody ConsumablePatient consumablePatient){
+    public ResponseEntity<TransferablePatient> registerPatient(@RequestBody ConsumablePatient consumablePatient) {
         return ResponseEntity.ok(registrationService.registerPatient(consumablePatient));
     }
+
     @PostMapping("/assistants")
-    public ResponseEntity<TransferableAssistant> registerAssistant(@RequestBody ConsumableAssistant consumableAssistant){
+    public ResponseEntity<TransferableAssistant> registerAssistant(@RequestBody ConsumableAssistant consumableAssistant) {
         return ResponseEntity.ok(registrationService.registerAssistant(consumableAssistant));
     }
 }

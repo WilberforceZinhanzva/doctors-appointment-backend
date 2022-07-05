@@ -9,13 +9,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
-public class TransferableCredentials implements Transferable{
+public class TransferableCredentials implements Transferable {
     private String id;
     private String username;
     private String password;
     private Set<TransferableRole> roles = new HashSet<>();
 
-    public TransferableCredentials(Credentials credentials){
+    public TransferableCredentials(Credentials credentials) {
         this.id = credentials.getId();
         this.username = credentials.getUsername();
         this.password = credentials.getPassword();

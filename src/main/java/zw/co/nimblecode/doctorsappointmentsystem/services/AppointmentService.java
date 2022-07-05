@@ -41,33 +41,33 @@ public class AppointmentService {
         this.credentialsRepository = credentialsRepository;
     }
 
-    public TransferableAppointment createAppointment(ConsumableAppointment consumableAppointment){
+    public TransferableAppointment createAppointment(ConsumableAppointment consumableAppointment) {
 
         //Logged In User
-        String username = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<Credentials> credentials = credentialsRepository.findByUsername(username);
-        if(credentials.isEmpty())
+        if (credentials.isEmpty())
             throw new ResourceNotFoundException("Logged in user not found!");
 
 
         Optional<Doctor> doctor = doctorRepository.findById(consumableAppointment.getDoctorId());
-        if(doctor.isEmpty())
+        if (doctor.isEmpty())
             throw new ResourceNotFoundException("Doctor not found!");
 
-        if(!doctor.get().isActive())
-            throw new ResourceNotFoundException("Doctor "+ doctor.get().getFullname()+ " is currently not on duty!");
+        if (!doctor.get().isActive())
+            throw new ResourceNotFoundException("Doctor " + doctor.get().getFullname() + " is currently not on duty!");
 
         Optional<Patient> patient = patientRepository.findById(credentials.get().getUser().getId());
-        if(patient.isEmpty())
+        if (patient.isEmpty())
             throw new ResourceNotFoundException("Patient not found!");
 
 
         Optional<AppointmentType> appointmentType = appointmentTypeRepository.findById(consumableAppointment.getAppointmentTypeId());
-        if(appointmentType.isEmpty())
+        if (appointmentType.isEmpty())
             throw new ResourceNotFoundException("Appointment type not found!");
 
-        Optional<TimeSlot> timeSlot = timeSlotsService.grabTimeSlotForAppointment(doctor.get(), GlobalUtilities.parseDateTime(consumableAppointment.getAppointmentDateAndTime()),appointmentType.get());
-        if(timeSlot.isEmpty())
+        Optional<TimeSlot> timeSlot = timeSlotsService.grabTimeSlotForAppointment(doctor.get(), GlobalUtilities.parseDateTime(consumableAppointment.getAppointmentDateAndTime()), appointmentType.get());
+        if (timeSlot.isEmpty())
             throw new ResourceNotFoundException("Sorry, we cannot schedule you appointment! Please choose another time for your appointment!");
 
         AppointmentTime appointmentTime = new AppointmentTime();
@@ -93,9 +93,9 @@ public class AppointmentService {
 
     }
 
-    public TransferableAppointment cancelAppointment(String id, String reason){
+    public TransferableAppointment cancelAppointment(String id, String reason) {
         Optional<Appointment> appointment = appointmentRepository.findById(id);
-        if(appointment.isEmpty())
+        if (appointment.isEmpty())
             throw new ResourceNotFoundException("Appointment not found!");
         appointment.get().setAppointmentStatus(AppointmentStatus.Cancelled);
         AppointmentActionLog appointmentActionLog = new AppointmentActionLog();
@@ -105,46 +105,46 @@ public class AppointmentService {
         return appointmentRepository.save(appointment.get()).serializeForTransfer();
     }
 
-    public Set<TransferableAppointment> appointments(AppointmentSearchKey key, String searchValue){
-        String username = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(Optional.of(username).isEmpty())
+    public Set<TransferableAppointment> appointments(AppointmentSearchKey key, String searchValue) {
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (Optional.of(username).isEmpty())
             throw new ResourceNotFoundException("User not logged in!");
 
         Optional<Credentials> credentials = credentialsRepository.findByUsername(username);
-        if(credentials.isEmpty())
+        if (credentials.isEmpty())
             throw new ResourceNotFoundException("Credentials not found!");
 
         User user = credentials.get().getUser();
 
         List<Appointment> appointmentList = new ArrayList<>();
-        if(user instanceof Doctor){
-            switch (key){
+        if (user instanceof Doctor) {
+            switch (key) {
                 case AppointmentType:
-                    appointmentList = appointmentRepository.findAllByDoctorAndAppointmentType_NameIgnoreCase((Doctor)user,searchValue);
+                    appointmentList = appointmentRepository.findAllByDoctorAndAppointmentType_NameIgnoreCase((Doctor) user, searchValue);
                     break;
                 default:
                     appointmentList = appointmentRepository.findAllByDoctor((Doctor) user);
                     break;
             }
-        }else if(user instanceof Patient){
-            switch (key){
+        } else if (user instanceof Patient) {
+            switch (key) {
                 case AppointmentType:
-                    appointmentList = appointmentRepository.findAllByPatientAndAppointmentType_NameIgnoreCase((Patient)user,searchValue);
+                    appointmentList = appointmentRepository.findAllByPatientAndAppointmentType_NameIgnoreCase((Patient) user, searchValue);
                     break;
                 default:
                     appointmentList = appointmentRepository.findAllByPatient((Patient) user);
                     break;
             }
-        }else{
+        } else {
             appointmentList = appointmentRepository.findAll();
         }
 
         return appointmentList.stream().map(Appointment::serializeForTransfer).collect(Collectors.toSet());
     }
 
-    public TransferableAppointment deleteAppointment(String id){
+    public TransferableAppointment deleteAppointment(String id) {
         Optional<Appointment> appointment = appointmentRepository.findById(id);
-        if(appointment.isEmpty())
+        if (appointment.isEmpty())
             throw new ResourceNotFoundException("Appointment not found!");
         appointmentRepository.delete(appointment.get());
         return appointment.get().serializeForTransfer();

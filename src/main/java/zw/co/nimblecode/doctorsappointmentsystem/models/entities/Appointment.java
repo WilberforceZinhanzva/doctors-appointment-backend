@@ -11,24 +11,24 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name="appointments")
-public class Appointment implements Serializable{
+@Table(name = "appointments")
+public class Appointment implements Serializable {
     @Id
     private String id = UUID.randomUUID().toString();
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="appointment_time")
+    @JoinColumn(name = "appointment_time")
     private AppointmentTime appointmentTime;
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "appointment")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "appointment")
     private List<AppointmentActionLog> appointmentActionLog = new ArrayList<>();
     @ManyToOne
-    @JoinColumn(name="appointment_type")
+    @JoinColumn(name = "appointment_type")
     private AppointmentType appointmentType;
     private AppointmentStatus appointmentStatus;
     @ManyToOne
-    @JoinColumn(name="doctor")
+    @JoinColumn(name = "doctor")
     private Doctor doctor;
     @ManyToOne
-    @JoinColumn(name="patient")
+    @JoinColumn(name = "patient")
     private Patient patient;
 
     @Override

@@ -12,8 +12,9 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 
-public class Assistant extends User{
+public class Assistant extends User {
     private String fullname;
+
     @Override
     public TransferableAssistant serializeForTransfer() {
         return new TransferableAssistant(this);

@@ -12,22 +12,24 @@ import java.util.Set;
 @RequestMapping("/api/v1/appointment-types")
 public class AppointmentTypeController {
 
-   private AppointmentTypeService appointmentTypeService;
+    private AppointmentTypeService appointmentTypeService;
 
     public AppointmentTypeController(AppointmentTypeService appointmentTypeService) {
         this.appointmentTypeService = appointmentTypeService;
     }
 
     @PostMapping
-    public ResponseEntity<TransferableAppointmentType> createAppointment(@RequestBody ConsumableAppointmentType consumableAppointmentType){
+    public ResponseEntity<TransferableAppointmentType> createAppointment(@RequestBody ConsumableAppointmentType consumableAppointmentType) {
         return ResponseEntity.ok(appointmentTypeService.createAppointmentType(consumableAppointmentType));
     }
+
     @GetMapping
-    public ResponseEntity<Set<TransferableAppointmentType>> appointmentTypes(){
+    public ResponseEntity<Set<TransferableAppointmentType>> appointmentTypes() {
         return ResponseEntity.ok(appointmentTypeService.appointmentTypes());
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<TransferableAppointmentType> deleteAppointmentType(@PathVariable("id") String id){
+    public ResponseEntity<TransferableAppointmentType> deleteAppointmentType(@PathVariable("id") String id) {
         return ResponseEntity.ok(appointmentTypeService.deleteAppointmentType(id));
     }
 }

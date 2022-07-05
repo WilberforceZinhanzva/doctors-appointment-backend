@@ -7,16 +7,19 @@ import java.time.format.DateTimeParseException;
 
 public class GlobalUtilities {
 
-    public static DateTimeFormatter dateTimeFormatter(){
+    public static DateTimeFormatter dateTimeFormatter() {
         return DateTimeFormatter.ofPattern("dd-MM-yyyyTHH:MM");
     }
-    public static DateTimeFormatter dateFormatter(){
+
+    public static DateTimeFormatter dateFormatter() {
         return DateTimeFormatter.ofPattern("dd-MM-yyyy");
     }
+
     public static LocalDateTime parseDateTime(String date) throws DateTimeParseException {
-        return LocalDateTime.parse(date,dateTimeFormatter());
+        return LocalDateTime.parse(date, dateTimeFormatter());
     }
-    public static LocalDate parseDate(String date) throws DateTimeParseException{
-        return LocalDate.parse(date,dateFormatter());
+
+    public static LocalDate parseDate(String date) throws DateTimeParseException {
+        return LocalDate.parse(date, dateFormatter());
     }
 }

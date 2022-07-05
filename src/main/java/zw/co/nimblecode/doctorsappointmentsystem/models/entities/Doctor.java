@@ -6,24 +6,24 @@ import lombok.NoArgsConstructor;
 import zw.co.nimblecode.doctorsappointmentsystem.models.transferables.TransferableDoctor;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 
-public class Doctor extends User{
+public class Doctor extends User {
     private String fullname;
     private boolean active;
     @ManyToMany(cascade = {CascadeType.PERSIST})
     @JoinTable(name = "doctors_specialization_fields",
-    joinColumns = @JoinColumn(name="doctor", referencedColumnName = "id"),
-    inverseJoinColumns = @JoinColumn(name="specialization_field",referencedColumnName = "id"))
-    private Set<SpecializationField> fieldOfSpecialization = new HashSet<>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor",fetch = FetchType.LAZY)
-    private Set<Appointment> appointments = new HashSet<>();
+            joinColumns = @JoinColumn(name = "doctor", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "specialization_field", referencedColumnName = "id"))
+    private List<SpecializationField> fieldOfSpecialization = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor", fetch = FetchType.LAZY)
+    private List<Appointment> appointments = new ArrayList<>();
 
     @Override
     public TransferableDoctor serializeForTransfer() {

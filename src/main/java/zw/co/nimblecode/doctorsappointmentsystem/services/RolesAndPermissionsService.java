@@ -28,28 +28,28 @@ public class RolesAndPermissionsService {
     }
 
 
-    public TransferablePermission createPermission(ConsumablePermission consumablePermission){
-        if(permissionRepository.existsByPermissionIgnoreCase(consumablePermission.getPermission()))
+    public TransferablePermission createPermission(ConsumablePermission consumablePermission) {
+        if (permissionRepository.existsByPermissionIgnoreCase(consumablePermission.getPermission()))
             throw new ResourceAlreadyExistsException("Permission already exists!");
         Permission permission = new Permission();
         permission.setPermission(consumablePermission.getPermission());
         return permissionRepository.save(permission).serializeForTransfer();
     }
 
-    public List<TransferablePermission> permissions(){
+    public List<TransferablePermission> permissions() {
         return permissionRepository.findAll().stream().map(Permission::serializeForTransfer).collect(Collectors.toList());
     }
 
-    public TransferablePermission deletePermission(String id){
+    public TransferablePermission deletePermission(String id) {
         Optional<Permission> permission = permissionRepository.findById(id);
-        if(permission.isEmpty())
+        if (permission.isEmpty())
             throw new ResourceNotFoundException("Permission not found!");
         permissionRepository.delete(permission.get());
         return permission.get().serializeForTransfer();
     }
 
-    public TransferableRole createRole(ConsumableRole consumableRole){
-        if(roleRepository.existsByRoleIgnoreCase(consumableRole.getRole()))
+    public TransferableRole createRole(ConsumableRole consumableRole) {
+        if (roleRepository.existsByRoleIgnoreCase(consumableRole.getRole()))
             throw new ResourceAlreadyExistsException("Role already exists!");
 
         List<Permission> permissions = permissionRepository.findAllByPermissionInIgnoreCase(consumableRole.getPermissions());
@@ -60,13 +60,13 @@ public class RolesAndPermissionsService {
 
     }
 
-    public List<TransferableRole> roles(){
+    public List<TransferableRole> roles() {
         return roleRepository.findAll().stream().map(Role::serializeForTransfer).collect(Collectors.toList());
     }
 
-    public TransferableRole deleteRole(String id){
+    public TransferableRole deleteRole(String id) {
         Optional<Role> role = roleRepository.findById(id);
-        if(role.isEmpty())
+        if (role.isEmpty())
             throw new ResourceNotFoundException("Role not found!");
         roleRepository.delete(role.get());
         return role.get().serializeForTransfer();

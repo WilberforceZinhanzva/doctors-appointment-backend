@@ -4,7 +4,7 @@ import lombok.Data;
 import zw.co.nimblecode.doctorsappointmentsystem.utils.Validity;
 
 @Data
-public class ConsumablePatient implements Consumable{
+public class ConsumablePatient implements Consumable {
     private String username;
     private String password;
     private String fullname;

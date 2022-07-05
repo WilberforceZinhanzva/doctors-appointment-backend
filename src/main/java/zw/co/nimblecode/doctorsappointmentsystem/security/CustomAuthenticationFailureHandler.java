@@ -18,10 +18,10 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         response.setContentType("application/json");
         response.setStatus(HttpStatus.FORBIDDEN.value());
 
-        CustomException customException = new CustomException(exception.getMessage(),HttpStatus.FORBIDDEN);
+        CustomException customException = new CustomException(exception.getMessage(), HttpStatus.FORBIDDEN);
         OutputStream out = response.getOutputStream();
         ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(out,customException);
+        mapper.writeValue(out, customException);
         out.flush();
     }
 }

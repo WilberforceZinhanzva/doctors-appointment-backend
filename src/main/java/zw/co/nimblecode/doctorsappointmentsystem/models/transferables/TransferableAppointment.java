@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
-public class TransferableAppointment implements Transferable{
+public class TransferableAppointment implements Transferable {
     private String id;
     private TransferableAppointmentType appointmentType;
     private TransferableAppointmentTime appointmentTime;
@@ -19,7 +19,7 @@ public class TransferableAppointment implements Transferable{
     private TransferableDoctor doctor;
     private TransferablePatient patient;
 
-    public TransferableAppointment(Appointment appointment){
+    public TransferableAppointment(Appointment appointment) {
         this.id = appointment.getId();
         this.appointmentType = appointment.getAppointmentType().serializeForTransfer();
         this.appointmentTime = appointment.getAppointmentTime().serializeForTransfer();

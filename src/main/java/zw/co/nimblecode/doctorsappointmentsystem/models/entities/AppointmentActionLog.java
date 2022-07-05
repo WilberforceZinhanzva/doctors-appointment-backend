@@ -8,14 +8,14 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name="appointment_action_logs")
-public class AppointmentActionLog implements Serializable{
+@Table(name = "appointment_action_logs")
+public class AppointmentActionLog implements Serializable {
     @Id
     private String id = UUID.randomUUID().toString();
     private String action;
     private String reason;
     @ManyToOne
-    @JoinColumn(name="appointment")
+    @JoinColumn(name = "appointment")
     private Appointment appointment;
 
     @Override

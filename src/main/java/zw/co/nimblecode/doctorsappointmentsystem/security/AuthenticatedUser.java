@@ -9,7 +9,7 @@ import java.util.Map;
 
 
 public class AuthenticatedUser extends User {
-    private Map<String,String> userInformation = new HashMap<>();
+    private Map<String, String> userInformation = new HashMap<>();
 
     public AuthenticatedUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);

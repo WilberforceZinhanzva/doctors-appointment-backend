@@ -22,17 +22,17 @@ public class ApplicationWebSecurity extends WebSecurityConfigurerAdapter {
     private ApplicationUserDetailsService applicationUserDetailsService;
     private PasswordEncoder passwordEncoder;
 
-    public ApplicationWebSecurity(ApplicationUserDetailsService applicationUserDetailsService, PasswordEncoder passwordEncoder){
+    public ApplicationWebSecurity(ApplicationUserDetailsService applicationUserDetailsService, PasswordEncoder passwordEncoder) {
         this.applicationUserDetailsService = applicationUserDetailsService;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Autowired
-    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(applicationUserDetailsService).passwordEncoder(passwordEncoder);
     }
 
-    public static final String[] SWAGGER_WHITELIST ={
+    public static final String[] SWAGGER_WHITELIST = {
             "/authenticate",
             "/v3/api-docs",
             "/swagger-resources/**",
@@ -51,15 +51,15 @@ public class ApplicationWebSecurity extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilter(new JwtUsernamePasswordAuthenticationFilter(authenticationManager()))
-                .addFilterAfter(new JwtTokenVerifier(),JwtUsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(new JwtTokenVerifier(), JwtUsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers(SWAGGER_WHITELIST).permitAll()
                 .anyRequest().permitAll();
-                //.authenticated();
+        //.authenticated();
     }
 
     @Bean
-    public AuthenticationFailureHandler authenticationFailureHandler(){
+    public AuthenticationFailureHandler authenticationFailureHandler() {
         return new CustomAuthenticationFailureHandler();
     }
 }

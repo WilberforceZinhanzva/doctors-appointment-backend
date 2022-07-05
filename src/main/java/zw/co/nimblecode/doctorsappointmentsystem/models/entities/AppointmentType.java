@@ -4,14 +4,14 @@ import lombok.Data;
 import zw.co.nimblecode.doctorsappointmentsystem.models.transferables.TransferableAppointmentType;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
 @Entity
-@Table(name="appointment_types")
-public class AppointmentType implements Serializable{
+@Table(name = "appointment_types")
+public class AppointmentType implements Serializable {
     @Id
     private String id = UUID.randomUUID().toString();
     private String name;
@@ -19,9 +19,9 @@ public class AppointmentType implements Serializable{
     private int duration;
     private String image;
     @ManyToMany(mappedBy = "appointmentTypes", cascade = {CascadeType.DETACH})
-    private Set<SpecializationField> specializationFields = new HashSet<>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "appointmentType", fetch=FetchType.LAZY)
-    private Set<Appointment> appointments = new HashSet<>();
+    private List<SpecializationField> specializationFields = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "appointmentType", fetch = FetchType.LAZY)
+    private List<Appointment> appointments = new ArrayList<>();
 
     @Override
     public TransferableAppointmentType serializeForTransfer() {

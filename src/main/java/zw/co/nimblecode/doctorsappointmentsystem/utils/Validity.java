@@ -9,11 +9,11 @@ public class Validity {
         this.message = message;
     }
 
-    public boolean isValid(){
+    public boolean isValid() {
         return valid;
     }
 
-    public String getMessage(){
+    public String getMessage() {
         return message;
     }
 }

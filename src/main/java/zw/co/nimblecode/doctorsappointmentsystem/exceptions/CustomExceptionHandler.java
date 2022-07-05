@@ -13,7 +13,7 @@ public class CustomExceptionHandler {
                     ResourceNotFoundException.class,
                     ResourceAlreadyExistsException.class
             })
-    public ResponseEntity<CustomException> handleConflicts(RuntimeException e){
-        return new ResponseEntity<>(new CustomException(e.getMessage(), HttpStatus.CONFLICT),HttpStatus.CONFLICT);
+    public ResponseEntity<CustomException> handleConflicts(RuntimeException e) {
+        return new ResponseEntity<>(new CustomException(e.getMessage(), HttpStatus.CONFLICT), HttpStatus.CONFLICT);
     }
 }

@@ -19,17 +19,17 @@ public class SpecializationFieldController {
     }
 
     @PostMapping
-    public ResponseEntity<TransferableSpecializationField> createSpecializationField(@RequestBody ConsumableSpecializedField consumableSpecializedField){
+    public ResponseEntity<TransferableSpecializationField> createSpecializationField(@RequestBody ConsumableSpecializedField consumableSpecializedField) {
         return ResponseEntity.ok(specializationFieldsService.createSpecializationField(consumableSpecializedField));
     }
 
     @GetMapping
-    public ResponseEntity<List<TransferableSpecializationField>> specializationFields(){
+    public ResponseEntity<List<TransferableSpecializationField>> specializationFields() {
         return ResponseEntity.ok(specializationFieldsService.specializationFields());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<TransferableSpecializationField> deleteSpecializationField(@PathVariable("id") String id){
+    public ResponseEntity<TransferableSpecializationField> deleteSpecializationField(@PathVariable("id") String id) {
         return ResponseEntity.ok(specializationFieldsService.deleteSpecializationField(id));
     }
 }

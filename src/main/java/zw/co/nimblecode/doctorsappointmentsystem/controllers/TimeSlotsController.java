@@ -9,6 +9,7 @@ import zw.co.nimblecode.doctorsappointmentsystem.models.entities.TimeSlot;
 import zw.co.nimblecode.doctorsappointmentsystem.services.TimeSlotsService;
 import zw.co.nimblecode.doctorsappointmentsystem.utils.GlobalUtilities;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -22,7 +23,7 @@ public class TimeSlotsController {
     }
 
     @GetMapping("/{doctorId}/{date}/{appointmentType}")
-    public ResponseEntity<Set<TimeSlot>> timeSlots(@PathVariable("doctorId")String doctorId,@PathVariable("date") String date,@PathVariable("appointmentType") String appointmentTypeId){
-        return ResponseEntity.ok(timeSlotsService.timeSlots(doctorId, GlobalUtilities.parseDate(date),appointmentTypeId));
+    public ResponseEntity<List<TimeSlot>> timeSlots(@PathVariable("doctorId") String doctorId, @PathVariable("date") String date, @PathVariable("appointmentType") String appointmentTypeId) {
+        return ResponseEntity.ok(timeSlotsService.timeSlots(doctorId, GlobalUtilities.parseDate(date), appointmentTypeId));
     }
 }

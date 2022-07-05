@@ -5,7 +5,7 @@ import lombok.Data;
 import zw.co.nimblecode.doctorsappointmentsystem.utils.Validity;
 
 @Data
-public class ConsumableAppointmentType implements Consumable{
+public class ConsumableAppointmentType implements Consumable {
     private String name;
     private String description;
     private int duration;

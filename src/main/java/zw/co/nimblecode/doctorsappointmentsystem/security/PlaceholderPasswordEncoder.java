@@ -5,6 +5,6 @@ import zw.co.nimblecode.doctorsappointmentsystem.interfaces.ApplicationPasswordE
 public class PlaceholderPasswordEncoder implements ApplicationPasswordEncoder {
     @Override
     public String encode(String password) {
-        return "encoded"+password;
+        return "encoded" + password;
     }
 }

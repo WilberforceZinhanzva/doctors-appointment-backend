@@ -5,7 +5,10 @@ import zw.co.nimblecode.doctorsappointmentsystem.models.entities.Doctor;
 
 import java.util.List;
 
-public interface DoctorRepository extends JpaRepository<Doctor,String> {
+public interface DoctorRepository extends JpaRepository<Doctor, String> {
     List<Doctor> findAllByFullnameContainsIgnoreCase(String name);
+
     List<Doctor> findAllByFieldOfSpecialization_FieldContainsIgnoreCase(String field);
+
+    List<Doctor> findAllByFieldOfSpecialization_AppointmentTypes_NameIgnoreCase(String name);
 }

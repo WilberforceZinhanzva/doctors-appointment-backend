@@ -10,7 +10,7 @@ import zw.co.nimblecode.doctorsappointmentsystem.models.transferables.Transferab
 import zw.co.nimblecode.doctorsappointmentsystem.repositories.AppointmentTypeRepository;
 import zw.co.nimblecode.doctorsappointmentsystem.repositories.SpecializationFieldRepository;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,27 +26,27 @@ public class SpecializationFieldsService {
         this.appointmentTypeRepository = appointmentTypeRepository;
     }
 
-    public TransferableSpecializationField createSpecializationField(ConsumableSpecializedField consumableSpecializedField){
-        if(specializationFieldRepository.existsByFieldIgnoreCase(consumableSpecializedField.getField()))
+    public TransferableSpecializationField createSpecializationField(ConsumableSpecializedField consumableSpecializedField) {
+        if (specializationFieldRepository.existsByFieldIgnoreCase(consumableSpecializedField.getField()))
             throw new ResourceAlreadyExistsException("Specialization field already exists!");
 
         List<AppointmentType> appointmentTypes = appointmentTypeRepository.findAllById(consumableSpecializedField.getAppointmentTypes());
 
         SpecializationField specializationField = new SpecializationField();
         specializationField.setField(consumableSpecializedField.getField());
-        specializationField.setAppointmentTypes(new HashSet<>(appointmentTypes));
+        specializationField.setAppointmentTypes(new ArrayList<>(appointmentTypes));
 
         return specializationFieldRepository.save(specializationField).serializeForTransfer();
 
     }
 
-    public List<TransferableSpecializationField> specializationFields(){
+    public List<TransferableSpecializationField> specializationFields() {
         return specializationFieldRepository.findAll().stream().map(SpecializationField::serializeForTransfer).collect(Collectors.toList());
     }
 
-    public TransferableSpecializationField deleteSpecializationField(String id){
+    public TransferableSpecializationField deleteSpecializationField(String id) {
         Optional<SpecializationField> specializationField = specializationFieldRepository.findById(id);
-        if(specializationField.isEmpty())
+        if (specializationField.isEmpty())
             throw new ResourceNotFoundException("Specialization field not found!");
         specializationFieldRepository.delete(specializationField.get());
         return specializationField.get().serializeForTransfer();

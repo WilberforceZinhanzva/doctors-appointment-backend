@@ -21,8 +21,8 @@ public class AppointmentTypeService {
         this.appointmentTypeRepository = appointmentTypeRepository;
     }
 
-    public TransferableAppointmentType createAppointmentType(ConsumableAppointmentType consumableAppointmentType){
-        if(appointmentTypeRepository.existsByNameIgnoreCase(consumableAppointmentType.getName()))
+    public TransferableAppointmentType createAppointmentType(ConsumableAppointmentType consumableAppointmentType) {
+        if (appointmentTypeRepository.existsByNameIgnoreCase(consumableAppointmentType.getName()))
             throw new ResourceAlreadyExistsException("Appointment type already exists!");
 
         AppointmentType appointmentType = new AppointmentType();
@@ -33,12 +33,14 @@ public class AppointmentTypeService {
 
         return appointmentTypeRepository.save(appointmentType).serializeForTransfer();
     }
-    public Set<TransferableAppointmentType> appointmentTypes(){
+
+    public Set<TransferableAppointmentType> appointmentTypes() {
         return appointmentTypeRepository.findAll().stream().map(AppointmentType::serializeForTransfer).collect(Collectors.toSet());
     }
-    public TransferableAppointmentType deleteAppointmentType(String id){
+
+    public TransferableAppointmentType deleteAppointmentType(String id) {
         Optional<AppointmentType> appointmentType = appointmentTypeRepository.findById(id);
-        if(appointmentType.isEmpty())
+        if (appointmentType.isEmpty())
             throw new ResourceNotFoundException("Appointment type not found!");
 
         appointmentTypeRepository.delete(appointmentType.get());

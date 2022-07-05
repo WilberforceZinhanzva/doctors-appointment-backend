@@ -1,8 +1,12 @@
 package zw.co.nimblecode.doctorsappointmentsystem.models.transferables;
 
+import lombok.Data;
 import zw.co.nimblecode.doctorsappointmentsystem.models.entities.Patient;
 
-public class TransferablePatient implements Transferable{
+import javax.annotation.sql.DataSourceDefinition;
+
+@Data
+public class TransferablePatient implements Transferable {
 
     private String id;
     private String fullname;
@@ -10,7 +14,7 @@ public class TransferablePatient implements Transferable{
     private String phone;
     private String email;
 
-    public TransferablePatient(Patient patient){
+    public TransferablePatient(Patient patient) {
         this.id = patient.getId();
         this.fullname = patient.getFullname();
         this.address = patient.getAddress();

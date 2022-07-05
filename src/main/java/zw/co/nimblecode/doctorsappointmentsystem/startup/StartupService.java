@@ -2,15 +2,16 @@ package zw.co.nimblecode.doctorsappointmentsystem.startup;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import zw.co.nimblecode.doctorsappointmentsystem.models.consumables.Consumable;
 import zw.co.nimblecode.doctorsappointmentsystem.models.consumables.ConsumablePermission;
 import zw.co.nimblecode.doctorsappointmentsystem.models.consumables.ConsumableRole;
+import zw.co.nimblecode.doctorsappointmentsystem.models.entities.BlacklistedTimeRange;
 import zw.co.nimblecode.doctorsappointmentsystem.models.entities.Permission;
-import zw.co.nimblecode.doctorsappointmentsystem.models.entities.Role;
+import zw.co.nimblecode.doctorsappointmentsystem.repositories.BlacklistedTimeRangeRepository;
 import zw.co.nimblecode.doctorsappointmentsystem.repositories.PermissionRepository;
 import zw.co.nimblecode.doctorsappointmentsystem.repositories.RoleRepository;
 import zw.co.nimblecode.doctorsappointmentsystem.services.RolesAndPermissionsService;
 
+import java.time.LocalTime;
 import java.util.Optional;
 
 @Service
@@ -20,57 +21,88 @@ public class StartupService {
     private RolesAndPermissionsService rolesAndPermissionsService;
     private PermissionRepository permissionRepository;
     private RoleRepository roleRepository;
+    private BlacklistedTimeRangeRepository blacklistedTimeRangeRepository;
 
 
-    public StartupService(RolesAndPermissionsService rolesAndPermissionsService, PermissionRepository permissionRepository, RoleRepository roleRepository) {
+    public StartupService(RolesAndPermissionsService rolesAndPermissionsService, PermissionRepository permissionRepository, RoleRepository roleRepository, BlacklistedTimeRangeRepository blacklistedTimeRangeRepository) {
         this.rolesAndPermissionsService = rolesAndPermissionsService;
         this.permissionRepository = permissionRepository;
         this.roleRepository = roleRepository;
+        this.blacklistedTimeRangeRepository = blacklistedTimeRangeRepository;
     }
 
-    public void init(){
+    public void init() {
         log.info("[Initializing]");
         createPermissions();
         createRoles();
+        blacklistNonWorkingHours();
         log.info("[Initialization Complete]");
     }
 
-    public void createPermissions(){
+    public void createPermissions() {
         ConsumablePermission createAnAppointment = new ConsumablePermission();
         createAnAppointment.setPermission("CREATE_APPOINTMENT");
 
         ConsumablePermission attendToPatients = new ConsumablePermission();
         attendToPatients.setPermission("ATTEND_PATIENTS");
 
-        if(!permissionRepository.existsByPermissionIgnoreCase(createAnAppointment.getPermission()))
-            rolesAndPermissionsService.createPermission(createAnAppointment); log.info("CREATE PERMISSION: [create_an_appointment]    done");
-        if(!permissionRepository.existsByPermissionIgnoreCase(attendToPatients.getPermission()))
-            rolesAndPermissionsService.createPermission(attendToPatients); log.info("CREATE PERMISSION: [attend_to_patients]    done");
+        if (!permissionRepository.existsByPermissionIgnoreCase(createAnAppointment.getPermission())) {
+            rolesAndPermissionsService.createPermission(createAnAppointment);
+            log.info("CREATE PERMISSION: [create_an_appointment]    done");
+        }
+
+        if (!permissionRepository.existsByPermissionIgnoreCase(attendToPatients.getPermission())) {
+            rolesAndPermissionsService.createPermission(attendToPatients);
+            log.info("CREATE PERMISSION: [attend_to_patients]    done");
+        }
 
 
     }
 
-    public void createRoles(){
-        if(!roleRepository.existsByRoleIgnoreCase("DOCTOR")){
+    public void createRoles() {
+        if (!roleRepository.existsByRoleIgnoreCase("DOCTOR")) {
             Optional<Permission> attendPatientsPermission = permissionRepository.findByPermission("ATTEND_PATIENTS");
             ConsumableRole consumableRole = new ConsumableRole();
             consumableRole.setRole("DOCTOR");
-            if(attendPatientsPermission.isPresent()){
+            if (attendPatientsPermission.isPresent()) {
                 consumableRole.getPermissions().add(attendPatientsPermission.get().getPermission());
             }
             rolesAndPermissionsService.createRole(consumableRole);
             log.info("CREATE ROLE: [DOCTOR]    done");
         }
 
-        if(!roleRepository.existsByRoleIgnoreCase("PATIENT")){
+        if (!roleRepository.existsByRoleIgnoreCase("PATIENT")) {
             Optional<Permission> createAppointmentPermission = permissionRepository.findByPermission("CREATE_APPOINTMENT");
             ConsumableRole consumableRole = new ConsumableRole();
             consumableRole.setRole("PATIENT");
-            if(createAppointmentPermission.isPresent()){
+            if (createAppointmentPermission.isPresent()) {
                 consumableRole.getPermissions().add(createAppointmentPermission.get().getPermission());
             }
             rolesAndPermissionsService.createRole(consumableRole);
             log.info("CREATE ROLE: [PATIENT]    done");
         }
+    }
+
+
+    public void blacklistNonWorkingHours() {
+
+        BlacklistedTimeRange morningTime = new BlacklistedTimeRange();
+        morningTime.setStartTime(LocalTime.of(00, 00));
+        morningTime.setEndTime(LocalTime.of(07, 59));
+
+        BlacklistedTimeRange eveningTime = new BlacklistedTimeRange();
+        eveningTime.setStartTime(LocalTime.of(18, 00));
+        eveningTime.setEndTime(LocalTime.of(23, 59));
+
+        if (!blacklistedTimeRangeRepository.existsByStartTimeAndEndTime(morningTime.getStartTime(), morningTime.getEndTime())) {
+            blacklistedTimeRangeRepository.save(morningTime);
+            log.info("CREATE TIME BLACKLIST: [MORNING]    done");
+        }
+
+        if (!blacklistedTimeRangeRepository.existsByStartTimeAndEndTime(eveningTime.getStartTime(), eveningTime.getEndTime())) {
+            blacklistedTimeRangeRepository.save(eveningTime);
+            log.info("CREATE TIME BLACKLIST: [EVENING]    done");
+        }
+
     }
 }

@@ -1,8 +1,10 @@
 package zw.co.nimblecode.doctorsappointmentsystem.models.consumables;
 
+import lombok.Data;
 import zw.co.nimblecode.doctorsappointmentsystem.utils.Validity;
 
-public class ConsumableAppointmentActionLog implements Consumable{
+@Data
+public class ConsumableAppointmentActionLog implements Consumable {
     @Override
     public Validity checkValidity() {
         return null;

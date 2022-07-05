@@ -7,8 +7,8 @@ import zw.co.nimblecode.doctorsappointmentsystem.models.transferables.Transferab
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -20,7 +20,8 @@ public class Patient extends User {
     private String phone;
     private String email;
     @OneToMany(mappedBy = "patient")
-    private Set<Appointment> appointments = new HashSet<>();
+    private List<Appointment> appointments = new ArrayList<>();
+
     @Override
     public TransferablePatient serializeForTransfer() {
         return new TransferablePatient(this);

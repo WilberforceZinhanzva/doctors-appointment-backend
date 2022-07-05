@@ -7,14 +7,14 @@ import zw.co.nimblecode.doctorsappointmentsystem.models.enums.AppointmentTimeSta
 import java.time.LocalDateTime;
 
 @Data
-public class TransferableAppointmentTime implements Transferable{
+public class TransferableAppointmentTime implements Transferable {
     private String id;
     private LocalDateTime date;
     private Integer duration;
     private String appointmentId;
     private AppointmentTimeStatus appointmentTimeStatus;
 
-    public TransferableAppointmentTime(AppointmentTime appointmentTime){
+    public TransferableAppointmentTime(AppointmentTime appointmentTime) {
         this.id = appointmentTime.getId();
         this.date = appointmentTime.getDate();
         this.duration = appointmentTime.getDuration();

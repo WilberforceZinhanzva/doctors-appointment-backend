@@ -8,7 +8,7 @@ public class TransferablePermission implements Transferable {
     private String id;
     private String permission;
 
-    public TransferablePermission(Permission permission){
+    public TransferablePermission(Permission permission) {
         this.id = permission.getId();
         this.permission = permission.getPermission();
     }

@@ -8,6 +8,7 @@ public class ConsumableAssistant implements Consumable {
     private String username;
     private String password;
     private String fullname;
+
     @Override
     public Validity checkValidity() {
         return null;

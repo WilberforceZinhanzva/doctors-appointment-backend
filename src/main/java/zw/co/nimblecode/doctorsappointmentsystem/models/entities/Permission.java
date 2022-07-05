@@ -14,12 +14,13 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "permissions")
-public class Permission implements Serializable{
+public class Permission implements Serializable {
     @Id
     private String id = UUID.randomUUID().toString();
     private String permission;
     @ManyToMany(mappedBy = "permissions")
     private List<Role> roles = new ArrayList<>();
+
     @Override
     public TransferablePermission serializeForTransfer() {
         return new TransferablePermission(this);

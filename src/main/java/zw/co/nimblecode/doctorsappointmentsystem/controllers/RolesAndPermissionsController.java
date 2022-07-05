@@ -20,30 +20,32 @@ public class RolesAndPermissionsController {
     }
 
     @PostMapping("/permissions")
-    public ResponseEntity<TransferablePermission> createPermission(@RequestBody ConsumablePermission consumablePermission){
+    public ResponseEntity<TransferablePermission> createPermission(@RequestBody ConsumablePermission consumablePermission) {
         return ResponseEntity.ok(rolesAndPermissionsService.createPermission(consumablePermission));
     }
+
     @GetMapping("/permissions")
-    public ResponseEntity<List<TransferablePermission>> permissions(){
+    public ResponseEntity<List<TransferablePermission>> permissions() {
         return ResponseEntity.ok(rolesAndPermissionsService.permissions());
     }
+
     @DeleteMapping("/permissions/{id}")
-    public ResponseEntity<TransferablePermission> deletePermission(@PathVariable("id")String id){
+    public ResponseEntity<TransferablePermission> deletePermission(@PathVariable("id") String id) {
         return ResponseEntity.ok(rolesAndPermissionsService.deletePermission(id));
     }
 
     @PostMapping("/roles")
-    public ResponseEntity<TransferableRole> createRole(@RequestBody ConsumableRole consumableRole){
+    public ResponseEntity<TransferableRole> createRole(@RequestBody ConsumableRole consumableRole) {
         return ResponseEntity.ok(rolesAndPermissionsService.createRole(consumableRole));
     }
 
     @GetMapping("/roles")
-    public  ResponseEntity<List<TransferableRole>> roles(){
+    public ResponseEntity<List<TransferableRole>> roles() {
         return ResponseEntity.ok(rolesAndPermissionsService.roles());
     }
 
     @DeleteMapping("/roles/{id}")
-    public ResponseEntity<TransferableRole> deleteRole(@PathVariable("id") String id){
+    public ResponseEntity<TransferableRole> deleteRole(@PathVariable("id") String id) {
         return ResponseEntity.ok(rolesAndPermissionsService.deleteRole(id));
     }
 

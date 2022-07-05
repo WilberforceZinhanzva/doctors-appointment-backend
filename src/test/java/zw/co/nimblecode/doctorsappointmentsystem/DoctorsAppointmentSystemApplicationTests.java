@@ -11,7 +11,7 @@ class DoctorsAppointmentSystemApplicationTests {
     }
 
     @Test
-    void sortTime(){
+    void sortTime() {
 
 
     }

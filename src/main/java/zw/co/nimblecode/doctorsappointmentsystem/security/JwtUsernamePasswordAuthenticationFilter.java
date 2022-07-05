@@ -31,11 +31,11 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        try{
-            UsernameAndPassword usernameAndPassword = new ObjectMapper().readValue(request.getInputStream(),UsernameAndPassword.class);
-            Authentication authentication = new UsernamePasswordAuthenticationToken(usernameAndPassword.getUsername(),usernameAndPassword.getPassword());
+        try {
+            UsernameAndPassword usernameAndPassword = new ObjectMapper().readValue(request.getInputStream(), UsernameAndPassword.class);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(usernameAndPassword.getUsername(), usernameAndPassword.getPassword());
             return authenticationManager.authenticate(authentication);
-        }catch(IOException e){
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -45,7 +45,7 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         String token = Jwts.builder()
                 .setSubject(authResult.getName())
-                .claim("authorities",authResult.getAuthorities())
+                .claim("authorities", authResult.getAuthorities())
                 .setIssuedAt(new java.util.Date())
                 .setExpiration(Date.valueOf(LocalDate.now().plusDays(1)))
                 .signWith(Keys.hmacShaKeyFor(jwtSecurityKey.getBytes()))
@@ -53,12 +53,12 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
 
         response.addHeader("Access-Control-Expose-Headers", "Authorization");
         response.addHeader("Access-Control-Allow-Headers", "Authorization, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept, X-Custom-header");
-        response.addHeader("Authorization","Bearer "+token);
+        response.addHeader("Authorization", "Bearer " + token);
     }
 }
 
 @Data
-class UsernameAndPassword{
+class UsernameAndPassword {
     private String username;
     private String password;
 }
