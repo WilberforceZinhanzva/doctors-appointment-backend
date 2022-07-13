@@ -1,5 +1,6 @@
 package zw.co.nimblecode.doctorsappointmentsystem.services;
 
+import nonapi.io.github.classgraph.json.JSONUtils;
 import org.springframework.stereotype.Service;
 import zw.co.nimblecode.doctorsappointmentsystem.exceptions.ResourceNotFoundException;
 import zw.co.nimblecode.doctorsappointmentsystem.models.entities.*;
@@ -69,6 +70,7 @@ public class TimeSlotsService {
 
 
         if (appointments.isEmpty()) {
+
             //NO APPOINTMENTS
             do {
                 LocalTime appointmentStartTime = LocalTime.of(startDate.getHour(), startDate.getMinute());
@@ -98,9 +100,10 @@ public class TimeSlotsService {
                 takenTimeSlots.add(timeSlot);
 
             });
-            List<TimeSlot> sortedTakenTimeSlots = new ArrayList<>();
-            sortedTakenTimeSlots = takenTimeSlots.stream().sorted(Comparator.comparing(TimeSlot::getStartTime)).collect(Collectors.toList());
 
+            List<TimeSlot> sortedTakenTimeSlots = new ArrayList<>();
+            //sortedTakenTimeSlots = takenTimeSlots.stream().sorted(Comparator.comparing(TimeSlot::getStartTime)).collect(Collectors.toList());
+            sortedTakenTimeSlots = sort(takenTimeSlots);
             do {
                 LocalTime appointmentStartTime = LocalTime.of(startDate.getHour(), startDate.getMinute());
                 startDate = startDate.plus(Duration.ofMinutes(appointmentType.getDuration()));
@@ -136,11 +139,14 @@ public class TimeSlotsService {
     }
 
     public boolean isTaken(List<TimeSlot> timeSlots, LocalTime startTime, LocalTime endTime) {
+
         return timeSlots.stream().anyMatch(ts -> {
             if (startTime.isAfter(ts.getStartTime()) && endTime.isBefore(ts.getEndTime()) ||
                     startTime.isAfter(ts.getStartTime()) && startTime.isBefore(ts.getEndTime()) ||
                     endTime.isAfter(ts.getStartTime()) && endTime.isBefore(ts.getEndTime())
             ) {
+                return true;
+            }else if(startTime.equals(ts.getStartTime())){
                 return true;
             }
             return false;

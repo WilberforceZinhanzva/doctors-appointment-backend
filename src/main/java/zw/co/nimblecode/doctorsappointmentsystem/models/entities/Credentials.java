@@ -18,7 +18,7 @@ public class Credentials implements Serializable {
     private String password;
     @OneToOne(mappedBy = "credentials")
     private User user;
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH}, fetch = FetchType.EAGER)
     @JoinTable(name = "credential_roles",
             joinColumns = @JoinColumn(name = "credential", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "id"))

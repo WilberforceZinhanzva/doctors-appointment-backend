@@ -6,7 +6,7 @@ import zw.co.nimblecode.doctorsappointmentsystem.utils.Validity;
 @Data
 public class ConsumableAppointment implements Consumable {
     private String appointmentDateAndTime;
-    private String appointmentTypeId;
+    private String appointmentType;
     private String doctorId;
 
     @Override

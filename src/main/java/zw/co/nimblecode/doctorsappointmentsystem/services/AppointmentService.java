@@ -1,5 +1,6 @@
 package zw.co.nimblecode.doctorsappointmentsystem.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import zw.co.nimblecode.doctorsappointmentsystem.exceptions.ResourceNotFoundException;
@@ -10,6 +11,7 @@ import zw.co.nimblecode.doctorsappointmentsystem.models.enums.AppointmentStatus;
 import zw.co.nimblecode.doctorsappointmentsystem.models.enums.AppointmentTimeStatus;
 import zw.co.nimblecode.doctorsappointmentsystem.models.transferables.TransferableAppointment;
 import zw.co.nimblecode.doctorsappointmentsystem.repositories.*;
+import zw.co.nimblecode.doctorsappointmentsystem.security.AuthenticatedUser;
 import zw.co.nimblecode.doctorsappointmentsystem.utils.GlobalUtilities;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class AppointmentService {
 
     private AppointmentRepository appointmentRepository;
@@ -44,7 +47,8 @@ public class AppointmentService {
     public TransferableAppointment createAppointment(ConsumableAppointment consumableAppointment) {
 
         //Logged In User
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        log.info(username);
         Optional<Credentials> credentials = credentialsRepository.findByUsername(username);
         if (credentials.isEmpty())
             throw new ResourceNotFoundException("Logged in user not found!");
@@ -61,8 +65,7 @@ public class AppointmentService {
         if (patient.isEmpty())
             throw new ResourceNotFoundException("Patient not found!");
 
-
-        Optional<AppointmentType> appointmentType = appointmentTypeRepository.findById(consumableAppointment.getAppointmentTypeId());
+        Optional<AppointmentType> appointmentType = appointmentTypeRepository.findByNameIgnoreCase(consumableAppointment.getAppointmentType());
         if (appointmentType.isEmpty())
             throw new ResourceNotFoundException("Appointment type not found!");
 
@@ -82,6 +85,9 @@ public class AppointmentService {
         appointment.setAppointmentStatus(AppointmentStatus.Assigned);
         appointment.setDoctor(doctor.get());
         appointment.setPatient(patient.get());
+
+
+        appointmentTime.setAppointment(appointment);
 
         AppointmentActionLog appointmentActionLog = new AppointmentActionLog();
         appointmentActionLog.setAction("Created Appointment");

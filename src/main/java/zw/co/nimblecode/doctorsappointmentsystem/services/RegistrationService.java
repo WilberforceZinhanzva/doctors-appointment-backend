@@ -92,6 +92,7 @@ public class RegistrationService {
         patient.setAddress(consumablePatient.getAddress());
         patient.setPhone(consumablePatient.getPhone());
         patient.setEmail(consumablePatient.getEmail());
+        patient.setCredentials(credentials);
 
         return patientRepository.save(patient).serializeForTransfer();
     }

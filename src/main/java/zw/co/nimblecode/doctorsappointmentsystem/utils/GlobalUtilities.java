@@ -8,7 +8,7 @@ import java.time.format.DateTimeParseException;
 public class GlobalUtilities {
 
     public static DateTimeFormatter dateTimeFormatter() {
-        return DateTimeFormatter.ofPattern("dd-MM-yyyyTHH:MM");
+        return DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
     }
 
     public static DateTimeFormatter dateFormatter() {

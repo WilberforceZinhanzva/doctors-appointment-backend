@@ -54,6 +54,13 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
         response.addHeader("Access-Control-Expose-Headers", "Authorization");
         response.addHeader("Access-Control-Allow-Headers", "Authorization, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept, X-Custom-header");
         response.addHeader("Authorization", "Bearer " + token);
+        response.setContentType("application/json");
+
+        AuthenticatedUser authenticatedUser = (AuthenticatedUser) authResult.getPrincipal();
+        AuthenticatedUserMinified authenticatedUserMinified = new AuthenticatedUserMinified();
+        authenticatedUserMinified.setFullname(authenticatedUser.getUserInformation().get("name"));
+        response.getWriter().write(new ObjectMapper().writeValueAsString(authenticatedUserMinified));
+        response.getWriter().flush();
     }
 }
 
