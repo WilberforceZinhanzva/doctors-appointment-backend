@@ -1,6 +1,6 @@
 package zw.co.nimblecode.doctorsappointmentsystem.services;
 
-import nonapi.io.github.classgraph.json.JSONUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import zw.co.nimblecode.doctorsappointmentsystem.exceptions.ResourceNotFoundException;
 import zw.co.nimblecode.doctorsappointmentsystem.models.entities.*;
@@ -13,9 +13,13 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class TimeSlotsService {
 
@@ -49,8 +53,15 @@ public class TimeSlotsService {
 
     public Optional<TimeSlot> grabTimeSlotForAppointment(Doctor doctor, LocalDateTime dateAndTime, AppointmentType appointmentType) {
         List<TimeSlot> allAvailableTimeSlots = availableTimeSlots(doctor, dateAndTime.toLocalDate(), appointmentType);
+
         LocalTime startTime = LocalTime.of(dateAndTime.getHour(), dateAndTime.getMinute());
-        return allAvailableTimeSlots.stream().filter(slot -> slot.getStartTime() == startTime && slot.getEndTime() == startTime.plusMinutes(appointmentType.getDuration())).findFirst();
+
+
+        Optional<TimeSlot> t = allAvailableTimeSlots.stream().filter(slot -> {
+            return (slot.getStartTime().equals(startTime)) && (slot.getEndTime().equals(startTime.plusMinutes(appointmentType.getDuration())) );
+        }).findFirst();
+        return t;
+
     }
 
     public List<TimeSlot> availableTimeSlots(Doctor doctor, LocalDate date, AppointmentType appointmentType) {

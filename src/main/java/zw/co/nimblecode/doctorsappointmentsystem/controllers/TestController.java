@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import zw.co.nimblecode.doctorsappointmentsystem.models.entities.TimeSlot;
 
-import java.sql.Time;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Comparator;

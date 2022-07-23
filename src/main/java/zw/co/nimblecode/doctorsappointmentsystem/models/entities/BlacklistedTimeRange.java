@@ -1,7 +1,6 @@
 package zw.co.nimblecode.doctorsappointmentsystem.models.entities;
 
 import lombok.Data;
-import zw.co.nimblecode.doctorsappointmentsystem.models.transferables.Transferable;
 import zw.co.nimblecode.doctorsappointmentsystem.models.transferables.TransferableBlacklistedTimeRange;
 
 import javax.persistence.Entity;

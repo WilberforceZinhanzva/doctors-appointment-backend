@@ -3,8 +3,6 @@ package zw.co.nimblecode.doctorsappointmentsystem.models.transferables;
 import lombok.Data;
 import zw.co.nimblecode.doctorsappointmentsystem.models.entities.Patient;
 
-import javax.annotation.sql.DataSourceDefinition;
-
 @Data
 public class TransferablePatient implements Transferable {
 

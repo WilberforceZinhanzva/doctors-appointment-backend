@@ -8,7 +8,7 @@ import zw.co.nimblecode.doctorsappointmentsystem.models.transferables.Transferab
 import zw.co.nimblecode.doctorsappointmentsystem.services.AppointmentService;
 
 import java.util.Set;
-
+@CrossOrigin(origins = {"http://localhost:30000"})
 @RestController
 @RequestMapping(value = "/api/v1/appointments")
 public class AppointmentController {
@@ -23,7 +23,7 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentService.createAppointment(consumableAppointment));
     }
 
-    @PutMapping("/{id}/{reason}")
+    @PutMapping("/{id}/cancel/{reason}")
     public ResponseEntity<TransferableAppointment> cancelAppointment(@PathVariable("id") String id, @PathVariable("reason") String reason) {
         return ResponseEntity.ok(appointmentService.cancelAppointment(id, reason));
     }

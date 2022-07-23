@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    username: root
+    password: password123
+    url: jdbc:mysql://localhost:3306/doctors-appointment-system?createDatabaseIfNotExist=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+

@@ -11,7 +11,6 @@ import zw.co.nimblecode.doctorsappointmentsystem.models.enums.AppointmentStatus;
 import zw.co.nimblecode.doctorsappointmentsystem.models.enums.AppointmentTimeStatus;
 import zw.co.nimblecode.doctorsappointmentsystem.models.transferables.TransferableAppointment;
 import zw.co.nimblecode.doctorsappointmentsystem.repositories.*;
-import zw.co.nimblecode.doctorsappointmentsystem.security.AuthenticatedUser;
 import zw.co.nimblecode.doctorsappointmentsystem.utils.GlobalUtilities;
 
 import java.util.ArrayList;
@@ -85,6 +84,7 @@ public class AppointmentService {
         appointment.setAppointmentStatus(AppointmentStatus.Assigned);
         appointment.setDoctor(doctor.get());
         appointment.setPatient(patient.get());
+        appointment.setPaymentType(consumableAppointment.getPaymentType());
 
 
         appointmentTime.setAppointment(appointment);

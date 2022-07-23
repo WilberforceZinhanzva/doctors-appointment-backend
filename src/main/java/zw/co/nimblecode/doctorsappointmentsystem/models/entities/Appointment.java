@@ -2,6 +2,7 @@ package zw.co.nimblecode.doctorsappointmentsystem.models.entities;
 
 import lombok.Data;
 import zw.co.nimblecode.doctorsappointmentsystem.models.enums.AppointmentStatus;
+import zw.co.nimblecode.doctorsappointmentsystem.models.enums.PaymentType;
 import zw.co.nimblecode.doctorsappointmentsystem.models.transferables.TransferableAppointment;
 
 import javax.persistence.*;
@@ -30,6 +31,8 @@ public class Appointment implements Serializable {
     @ManyToOne
     @JoinColumn(name = "patient")
     private Patient patient;
+    @Enumerated(EnumType.STRING)
+    private PaymentType paymentType;
 
     @Override
     public TransferableAppointment serializeForTransfer() {

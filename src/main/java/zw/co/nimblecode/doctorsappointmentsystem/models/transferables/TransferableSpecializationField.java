@@ -3,13 +3,10 @@ package zw.co.nimblecode.doctorsappointmentsystem.models.transferables;
 import lombok.Data;
 import lombok.ToString;
 import zw.co.nimblecode.doctorsappointmentsystem.models.entities.AppointmentType;
-import zw.co.nimblecode.doctorsappointmentsystem.models.entities.Doctor;
 import zw.co.nimblecode.doctorsappointmentsystem.models.entities.SpecializationField;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
