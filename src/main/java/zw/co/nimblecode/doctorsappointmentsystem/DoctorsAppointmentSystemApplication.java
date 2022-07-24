@@ -20,7 +20,7 @@ public class DoctorsAppointmentSystemApplication {
         return new WebMvcConfigurerAdapter(){
             @Override
             public void addCorsMappings(CorsRegistry registry){
-                registry.addMapping("/**").allowedOrigins("https://medical-ap.herokuapp.com");
+                registry.addMapping("/**").allowedOrigins("*");
             }
         };
     }
