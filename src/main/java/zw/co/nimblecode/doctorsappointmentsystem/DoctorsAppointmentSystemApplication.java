@@ -20,7 +20,8 @@ public class DoctorsAppointmentSystemApplication {
         return new WebMvcConfigurerAdapter(){
             @Override
             public void addCorsMappings(CorsRegistry registry){
-                registry.addMapping("/**").allowedOrigins("*");
+                registry.addMapping("/*")
+                        .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
             }
         };
     }
