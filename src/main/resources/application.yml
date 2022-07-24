@@ -1,5 +1,9 @@
 server:
   port: 12900
+  compression:
+    enabled: true
+    mime-types: application/wasm, application/octet-stream
+    min-response-size: 3000
 spring:
   jpa:
     hibernate:
