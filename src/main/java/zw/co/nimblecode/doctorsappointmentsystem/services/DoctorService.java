@@ -8,6 +8,7 @@ import zw.co.nimblecode.doctorsappointmentsystem.repositories.DoctorRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,7 +26,7 @@ public class DoctorService {
                 doctorList = doctorRepository.findAllByFullnameContainsIgnoreCase(searchValue);
                 break;
             case SpecializationField:
-                doctorList = doctorRepository.findAllByFieldOfSpecialization_FieldContainsIgnoreCase(searchValue);
+                doctorList = doctorRepository.findAllByFieldOfSpecialization_FieldIgnoreCase(searchValue);
                 break;
             case TypeOfAppointment:
                 doctorList = doctorRepository.findAllByFieldOfSpecialization_AppointmentTypes_NameIgnoreCase(searchValue);

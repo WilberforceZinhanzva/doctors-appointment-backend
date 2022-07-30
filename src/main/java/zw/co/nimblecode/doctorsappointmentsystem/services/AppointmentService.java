@@ -137,6 +137,9 @@ public class AppointmentService {
                 case AppointmentType:
                     appointmentList = appointmentRepository.findAllByPatientAndAppointmentType_NameIgnoreCase((Patient) user, searchValue);
                     break;
+                case AppointmentStatus:
+                    appointmentList = appointmentRepository.findAllByPatientAndAppointmentStatusNot((Patient)user,AppointmentStatus.valueOf(searchValue));
+                    break;
                 default:
                     appointmentList = appointmentRepository.findAllByPatient((Patient) user);
                     break;

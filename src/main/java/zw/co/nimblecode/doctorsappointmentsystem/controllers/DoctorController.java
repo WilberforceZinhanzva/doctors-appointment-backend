@@ -18,7 +18,7 @@ public class DoctorController {
         this.doctorService = doctorService;
     }
 
-    @CrossOrigin(origins = {"http://localhost:30000"})
+
     @GetMapping("/{key}/{searchValue}")
     public ResponseEntity<List<TransferableDoctor>> doctors(@PathVariable("key") DoctorSearchKey key, @PathVariable("searchValue") String searchValue) {
         return ResponseEntity.ok(doctorService.doctors(key, searchValue));

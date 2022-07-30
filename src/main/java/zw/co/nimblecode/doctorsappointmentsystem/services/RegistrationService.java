@@ -67,6 +67,7 @@ public class RegistrationService {
         doctor.setFullname(consumableDoctor.getFullname());
         doctor.setCredentials(credentials);
         doctor.setFieldOfSpecialization(new ArrayList<>(specializationFields));
+        doctor.setActive(true);
 
 
         return doctorRepository.save(doctor).serializeForTransfer();
